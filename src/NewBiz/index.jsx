@@ -21,8 +21,8 @@ const NewBiz = (props) => {
           <br/>
           <br/>
           <div className="row">
-              <div className="col">
-                <input type="submit" className="submit-box"></input>
+              <div className="col-md">
+                <input type="submit" className="submit-box" />
               </div>
             </div>
         </form>
