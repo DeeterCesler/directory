@@ -2,11 +2,15 @@
   text-align: center;
 }
 
-.box {
+.submit-box, .box {
   border: solid 2px #61dbfb;
   border-radius: 5px;
   padding: 8px;
   margin: 0 10px;
   width: 150px;
   height: 45px;
+}
+
+.box {
+  width: 300px;
 }
