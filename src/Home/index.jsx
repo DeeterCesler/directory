@@ -42,7 +42,7 @@ const Home = (props) => {
             { props.results !== null 
               &&
               props.results.map(result => {
-                return <li>{result.name}</li>
+                return <li>{result.name}, {result.type}, {result.zip}</li>
               })
             }
             </ul>
