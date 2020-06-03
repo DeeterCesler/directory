@@ -5,12 +5,16 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { BrowserRouter } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import HttpsRedirect from 'react-https-redirect';
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <HttpsRedirect>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </HttpsRedirect>
   </React.StrictMode>,
   document.getElementById('root')
 );
