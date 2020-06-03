@@ -1,8 +1,10 @@
 import React from 'react';
 import './App.css';
-import { Button } from 'reactstrap';
+import { Route, Switch } from 'react-router-dom';
+import NewBiz from './NewBiz';
+import Home from './Home';
 
-const names = ['James', 'John', 'Paul', 'Ringo', 'George'];
+const backendUrl = process.env.REACT_APP_BACKEND_SERVER_ADDRESS;
 
 class App extends React.Component {
   constructor(){
@@ -11,40 +13,16 @@ class App extends React.Component {
       name: '',
       type: null,
       zip: null,
-      results: [
-        {
-          name: "Restaurant 1",
-          zip: 45202,
-          type: "restaurant",
-        },
-        {
-          name: "Restaurant 2",
-          zip: 45202,
-          type: "restaurant",
-        },
-        {
-          name: "Office 3",
-          zip: 60007,
-          type: "office",
-        },
-        {
-          name: "Office 4",
-          zip: 60007,
-          type: "office",
-        },
-        {
-          name: "Media 5",
-          zip: 80234,
-          type: "media",
-        },
-        {
-          name: "Media 6",
-          zip: 80234,
-          type: "media",
-        },
-      ],
-      filteredResults: [],
+      results: null,
     }
+  }
+
+  newBiz = () => {
+    return <NewBiz handleInputs={this.handleInputs} submitNewBiz={this.submitNewBiz} />
+  }
+
+  home = () => {
+    return <Home handleInputs={this.handleInputs} searchForBusiness={this.searchForBusiness} results={this.state.results} />
   }
 
   handleInputs = async (e) => {
@@ -53,6 +31,60 @@ class App extends React.Component {
       [e.currentTarget.name]: e.currentTarget.value
     })
     console.log(this.state)
+  }
+
+  searchForBusiness = async (e) => {
+    e.preventDefault();
+    console.log('backendUrl')
+    console.log(backendUrl + "search")
+    try {
+      const req = await fetch(backendUrl + "search", {
+        method: 'POST',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Headers': "POST",
+          'credentials': 'same-origin',
+        },
+        body: JSON.stringify({
+          name: this.state.name,
+          type: this.state.type,
+          zip: this.state.zip,
+        }),      
+      });
+      const res = await req.json();
+      console.log('res');
+      console.log(res);
+      this.setState({
+        ...this.state,
+        results: res.data,
+      })
+    } catch (e) {console.log('error: ' + e);}
+  }
+
+  submitNewBiz = async (e) => {
+    e.preventDefault();
+    console.log('backendUrl')
+    console.log(backendUrl + "new")
+    try {
+      const req = await fetch(backendUrl + "new", {
+        method: 'POST',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Headers': "POST",
+          'credentials': 'same-origin',
+        },
+        body: JSON.stringify({
+          name: this.state.name,
+          type: this.state.type,
+          zip: this.state.zip,
+        }),      
+      });
+      const res = await req.json();
+      console.log('res');
+      console.log(res);
+    } catch (e) {console.log('error: ' + e);}
   }
 
   clearResults = () => {
@@ -65,89 +97,24 @@ class App extends React.Component {
   render () {
     return (
       <div className="App">
-        <h1>the directory</h1>
-        <div className="container">
-          <br/>
-          <div className="row">
-            <div className="col">
-              <p>Name</p>
-              <input className="box" placeholder="business name" onChange={this.handleInputs} name="name" type="text"></input>
-            </div>
-            <div className="col">
-              <p>Business Type</p>
-              <select className="box" name="type" onChange={this.handleInputs}>
-                <option></option>
-                <option value="restaurant">Restaurant</option>
-                <option value="office">Office</option>
-                <option value="media">Media</option>
-              </select>
-            </div>
-            <div className="col">
-              <p>Zip code</p>
-              <input className="box" placeholder="zip" onChange={this.handleInputs} name="zip" type="number"></input>
-            </div>
-          </div>
-          <br/>
-          <br/>
-          {/* if ANY input is done, a filter will execute
-            if the input is name, it's the name one
-            if it's type, it's the type one
-            if it's zip, it's the zip one
-
-            if it's multiple, it'll stack
-          */}
-          { this.state.name !== '' ? 
-            this.state.results.filter(result => result.name.match(new RegExp(this.state.name +'.*?', 'i'))).map(biz => 
-              // this.setState({
-              //   ...this.state,
-              // filteredResults: [...biz],
-              // })
-              (
-              <div>
-                {biz.name}
-              </div>
-            ))
-          :
-          null
-          }
-          { this.state.type !== '' ? 
-            this.state.results.filter(result => result.type.match(new RegExp(this.state.type +'.*?', 'i'))).map(biz => (
-              <div>
-                {biz.name}
-              </div>
-            ))
-          :
-          null
-          }
-          { this.state.zip !== null ? 
-            this.state.results.filter(result => result.zip.toString().match(new RegExp(this.state.zip +'.*?'))).map(biz => (
-              <div>
-                {biz.name}
-              </div>
-            ))
-          :
-          null
-          }
-          {/* <div className="box" onClick={this.clearResults}>
-            clear
-          </div> */}
-          <div className="results">
-            {/* { this.state.name !== null ? 
-              <div> {this.state.results.filter(result => {
-                result.name.match(new RegExp(this.state.name.toString() +'.*')).map(foundBiz => (
-                  <div>
-                    {foundBiz.name}
-                  </div>
-                ));
-              })}
-              </div>
-              :
-              null
-            } */}
-  
-          </div>
-        
-        </div>
+        <Switch>
+            <Route exact path="/" render={this.home}/>
+            <Route exact path="/new" render={this.newBiz}/>
+            {/* <Route exact path="/about" render={this.aboutPage}/>
+            <Route exact path="/login" render={this.loginPage}/>
+            <Route exact path="/logout" render={this.logoutPage}/>
+            <Route exact path="/reset" render={this.resetPasswordAttempt}/>
+            <Route exact path="/reset/confirm/:id" render={(props) => this.resetPassword(props)}/>
+            <Route exact path="/register" render={this.registerPage}/>
+            <Route exact path="/plans" render={this.planChoicePage}/>
+            <Route exact path="/success/:sessionId" render={this.successPage}/>
+            <Route exact path="/routes/new" render={this.newEndpointPage}/>
+            <Route exact path="/routes" render={this.allEndpointsPage}/>
+            <Route exact path="/help" render={this.helpPage}/>
+            <Route exact path="/account" render={this.accountPage}/>
+            <Route exact path="/owner" render={this.ownerPage}/>
+            <Route render={this.NoMatch} /> */}
+          </Switch>
       </div>
     );
   }
