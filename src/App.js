@@ -13,8 +13,31 @@ class App extends React.Component {
       name: '',
       type: null,
       zip: null,
+      address: null,
+      phoneNumber: null,
+      website: null,
+      description: null,
       results: null,
+      isLoading: false,
     }
+  }
+
+  componentDidMount = async () => {
+    // ping heroku server to wake up it as soon as someone accesses the site
+    try {
+      const req = await fetch(backendUrl + "ping", {
+        method: 'GET',
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Headers': "GET",
+          'credentials': 'same-origin',
+        },
+      });
+      const res = await req.json();
+      console.log('PINGED!');
+      console.log(res.message);
+    } catch (e) {console.log('error: ' + e);}
   }
 
   newBiz = () => {
@@ -22,7 +45,7 @@ class App extends React.Component {
   }
 
   home = () => {
-    return <Home handleInputs={this.handleInputs} searchForBusiness={this.searchForBusiness} results={this.state.results} />
+    return <Home handleInputs={this.handleInputs} searchForBusiness={this.searchForBusiness} results={this.state.results} isLoading={this.state.isLoading} errorOnSearch={this.state.errorOnSearch} />
   }
 
   handleInputs = async (e) => {
@@ -37,6 +60,10 @@ class App extends React.Component {
     e.preventDefault();
     console.log('backendUrl')
     console.log(backendUrl + "search")
+    this.setState({
+      ...this.state,
+      isLoading: true,
+    })
     try {
       const req = await fetch(backendUrl + "search", {
         method: 'POST',
@@ -58,8 +85,16 @@ class App extends React.Component {
       this.setState({
         ...this.state,
         results: res.data,
+        isLoading: false,
       })
-    } catch (e) {console.log('error: ' + e);}
+    } catch (e) {
+      console.log('error: ' + e);
+      this.setState({
+        ...this.state,
+        isLoading: false,
+        errorOnSearch: true,
+      })
+    }
   }
 
   submitNewBiz = async (e) => {
@@ -79,6 +114,10 @@ class App extends React.Component {
           name: this.state.name,
           type: this.state.type,
           zip: this.state.zip,
+          address: this.state.address,
+          phoneNumber: this.state.phoneNumber,
+          website: this.state.website,
+          description: this.state.description,
         }),      
       });
       const res = await req.json();

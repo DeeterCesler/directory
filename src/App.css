@@ -28,9 +28,36 @@ body {
   padding-left: 0;
 }
 
-@media only screen and (max-width: 700px) {
+@media only screen and (max-width: 750px) {
   .container-fluid {
     padding: auto 0;
     width: 100vw;
   }
+}
+
+.description {
+  height: 7em;
+  padding: none;
+}
+
+.results table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.results td {
+  word-wrap: break-word;
+  padding: 0;
+  width: 16%;
+}
+
+.bold td {
+  font-weight: bold;
+}
+
+.result {
+  margin: 1.5em 0;
 }
