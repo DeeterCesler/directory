@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
-import NewBiz from './NewBiz';
 import Home from './Home';
 import GetSheetDone from 'get-sheet-done';
 
@@ -39,19 +38,7 @@ class App extends React.Component {
             results: sheet.data,
             isLoading: false,
           })
-      }).then(k => {
-        console.log('oi??/');
-        console.log(this.state.sheetData);
-      })
-
-        // gapi.client.sheets.spreadsheets.values.get({
-        //   spreadsheetId: '1jskVNrchKrYaicG7y792k7A9XkFhkfOey',
-        //   range: 'A2:A4'
-        // }).then((response) => {
-        //   var result = response.result;
-        //   var numRows = result.values ? result.values.length : 0;
-        //   console.log(`${numRows} rows retrieved.`);
-        // });  
+      });
     } catch (e) {
       console.log('error: ');
       console.log(e);
@@ -72,10 +59,6 @@ class App extends React.Component {
       console.log('PINGED!');
       console.log(res.message);
     } catch (e) {console.log('error: ' + e);}
-  }
-
-  newBiz = () => {
-    return <NewBiz handleInputs={this.handleInputs} submitNewBiz={this.submitNewBiz} />
   }
 
   home = () => {
@@ -125,83 +108,6 @@ class App extends React.Component {
     console.log(this.state)
   }
 
-  searchForBusiness = async (e) => {
-
-  }
-
-
-  /*
-  searchForBusiness = async (e) => {
-    e.preventDefault();
-    console.log('backendUrl')
-    console.log(backendUrl + "search")
-    this.setState({
-      ...this.state,
-      isLoading: true,
-    })
-    try {
-      const req = await fetch(backendUrl + "search", {
-        method: 'POST',
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Headers': "POST",
-          'credentials': 'same-origin',
-        },
-        body: JSON.stringify({
-          name: this.state.name,
-          type: this.state.type,
-          zip: this.state.zip,
-        }),      
-      });
-      const res = await req.json();
-      console.log('res');
-      console.log(res);
-      this.setState({
-        ...this.state,
-        results: res.data,
-        isLoading: false,
-      })
-    } catch (e) {
-      console.log('error: ' + e);
-      this.setState({
-        ...this.state,
-        isLoading: false,
-        errorOnSearch: true,
-      })
-    }
-  }
-  */
-
-  submitNewBiz = async (e) => {
-    e.preventDefault();
-    console.log('backendUrl')
-    console.log(backendUrl + "new")
-    try {
-      const req = await fetch(backendUrl + "new", {
-        method: 'POST',
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Headers': "POST",
-          'credentials': 'same-origin',
-        },
-        body: JSON.stringify({
-          name: this.state.name,
-          type: this.state.type,
-          zip: this.state.zip,
-          address: this.state.address,
-          phoneNumber: this.state.phoneNumber,
-          website: this.state.website,
-          description: this.state.description,
-        }),      
-      });
-      const res = await req.json();
-      console.log('res');
-      console.log(res);
-    } catch (e) {console.log('error: ' + e);}
-  }
-
   clearResults = () => {
     this.setState({
       ...this.state,
@@ -214,21 +120,6 @@ class App extends React.Component {
       <div className="App">
         <Switch>
             <Route exact path="/" render={this.home}/>
-            <Route exact path="/new" render={this.newBiz}/>
-            {/* <Route exact path="/about" render={this.aboutPage}/>
-            <Route exact path="/login" render={this.loginPage}/>
-            <Route exact path="/logout" render={this.logoutPage}/>
-            <Route exact path="/reset" render={this.resetPasswordAttempt}/>
-            <Route exact path="/reset/confirm/:id" render={(props) => this.resetPassword(props)}/>
-            <Route exact path="/register" render={this.registerPage}/>
-            <Route exact path="/plans" render={this.planChoicePage}/>
-            <Route exact path="/success/:sessionId" render={this.successPage}/>
-            <Route exact path="/routes/new" render={this.newEndpointPage}/>
-            <Route exact path="/routes" render={this.allEndpointsPage}/>
-            <Route exact path="/help" render={this.helpPage}/>
-            <Route exact path="/account" render={this.accountPage}/>
-            <Route exact path="/owner" render={this.ownerPage}/>
-            <Route render={this.NoMatch} /> */}
           </Switch>
       </div>
     );

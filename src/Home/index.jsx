@@ -36,13 +36,6 @@ const Home = (props) => {
                 <input className="box" placeholder="zip" onChange={props.handleInputs} name="zip" type="number"></input>
               </div>
             </div>
-            <br/>
-            <br/>
-            <div className="row">
-              <div className="col-md">
-                <input type="submit" className="submit-box"></input>
-              </div>
-            </div>
           </form>
           <br/>
           <br/>
