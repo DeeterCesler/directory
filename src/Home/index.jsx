@@ -1,6 +1,8 @@
 import React from 'react';
 
 const Home = (props) => {   
+  console.log('props lol')
+  console.log(props)
     return (
       <div>
         <br/>
@@ -34,13 +36,6 @@ const Home = (props) => {
                 <input className="box" placeholder="zip" onChange={props.handleInputs} name="zip" type="number"></input>
               </div>
             </div>
-            <br/>
-            <br/>
-            <div className="row">
-              <div className="col-md">
-                <input type="submit" className="submit-box"></input>
-              </div>
-            </div>
           </form>
           <br/>
           <br/>
@@ -69,20 +64,23 @@ const Home = (props) => {
                   {
                   props.results.length === 0 
                   &&
-                  <p>No results found.</p>
+                  <div>
+                    <br/>
+                    <p>No results found.</p>
+                  </div>
                   }
                   {props.results.map(result => {
                     let website;
-                    if(result.website && result.website.substring(0,4) === "http") website = result.website;
-                    else if (result.website) website = "http://" + result.website;
+                    if(result[4] && result[4].substring(0,4) === "http") website = result[4];
+                    else if (result[4]) website = "http://" + result[4];
                     return <tr className="row result" key={result._id}>
-                      <td>{result.name}</td>
+                      <td>{result[0]}</td>
                       {/* <td>{result.type}</td> */}
-                      <td>{result.address}</td>
-                      <td>{result.zip}</td>
-                      <td>{result.description}</td>
-                      <td><a rel="noopener noreferrer" target="_blank" href={website}>{result.website}</a></td>
-                      <td>{result.phoneNumber}</td>
+                      <td>{result[1]}</td>
+                      <td>{result[2]}</td>
+                      <td>{result[3]}</td>
+                      <td><a rel="noopener noreferrer" target="_blank" href={website}>{result[4]}</a></td>
+                      <td>{result[5]}</td>
                     </tr>
                   })}
                 </tbody>
