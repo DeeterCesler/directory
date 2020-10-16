@@ -3,6 +3,7 @@ import './App.css';
 import { Route, Switch } from 'react-router-dom';
 import NewBiz from './NewBiz';
 import Home from './Home';
+import GetSheetDone from 'get-sheet-done';
 
 const backendUrl = process.env.REACT_APP_BACKEND_SERVER_ADDRESS;
 
@@ -19,10 +20,43 @@ class App extends React.Component {
       description: null,
       results: null,
       isLoading: false,
+      sheetData: null,
     }
   }
 
   componentDidMount = async () => {
+    console.log('loading...');
+    this.setState({
+      isLoading: true
+    });
+    try {
+      GetSheetDone.raw('1jskVNrchKrYaicG7y792k7A9XkFhkfOey-KOg7b-9TU').then(sheet => {
+          console.log('results got!');
+          console.log(sheet);
+          sheet.data.shift();
+          this.setState({
+            sheetData: sheet.data,
+            results: sheet.data,
+            isLoading: false,
+          })
+      }).then(k => {
+        console.log('oi??/');
+        console.log(this.state.sheetData);
+      })
+
+        // gapi.client.sheets.spreadsheets.values.get({
+        //   spreadsheetId: '1jskVNrchKrYaicG7y792k7A9XkFhkfOey',
+        //   range: 'A2:A4'
+        // }).then((response) => {
+        //   var result = response.result;
+        //   var numRows = result.values ? result.values.length : 0;
+        //   console.log(`${numRows} rows retrieved.`);
+        // });  
+    } catch (e) {
+      console.log('error: ');
+      console.log(e);
+    }
+
     // ping heroku server to wake up it as soon as someone accesses the site
     try {
       const req = await fetch(backendUrl + "ping", {
@@ -52,10 +86,51 @@ class App extends React.Component {
     await this.setState({
       ...this.state,
       [e.currentTarget.name]: e.currentTarget.value
+    });
+
+    let foundBizzies = null;
+    if (this.state.name) {
+      foundBizzies = await this.state.sheetData.filter(biz => biz[0].match(new RegExp(this.state.name + '.*?', 'i')))
+      if (foundBizzies.length && this.state.zip){
+        foundBizzies = foundBizzies.filter(biz => biz[2].match(new RegExp(this.state.zip + '.*?', 'i')))
+      }
+      if (foundBizzies.length && this.state.type){
+        foundBizzies = foundBizzies.filter(biz => biz[3].toLowerCase() === this.state.type.toLowerCase())
+      }
+    } else if (this.state.type) {
+      foundBizzies = this.state.sheetData.filter(biz => biz[3].toLowerCase() === this.state.type.toLowerCase())
+      if (foundBizzies.length && this.state.name){
+        foundBizzies = await this.state.sheetData.filter(biz => biz[0].match(new RegExp(this.state.name + '.*?', 'i')))
+      }
+      if (foundBizzies.length && this.state.zip){
+        foundBizzies = foundBizzies.filter(biz => biz[2].match(new RegExp(this.state.zip + '.*?', 'i')))
+      }
+    } else if (this.state.zip) {
+      foundBizzies = this.state.sheetData.filter(biz => biz[2].match(new RegExp(this.state.zip + '.*?', 'i')))
+      if (foundBizzies.length && this.state.type){
+        foundBizzies = foundBizzies.filter(biz => biz[3].toLowerCase() === this.state.type.toLowerCase())
+      }
+      if (foundBizzies.length && this.state.name){
+        foundBizzies = await this.state.sheetData.filter(biz => biz[0].match(new RegExp(this.state.name + '.*?', 'i')))
+      }
+    } else {
+      foundBizzies = await this.state.sheetData;
+    }
+
+    await this.setState({
+      ...this.state,
+      results: foundBizzies,
     })
+
     console.log(this.state)
   }
 
+  searchForBusiness = async (e) => {
+
+  }
+
+
+  /*
   searchForBusiness = async (e) => {
     e.preventDefault();
     console.log('backendUrl')
@@ -96,6 +171,7 @@ class App extends React.Component {
       })
     }
   }
+  */
 
   submitNewBiz = async (e) => {
     e.preventDefault();
