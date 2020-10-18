@@ -1,8 +1,6 @@
 import React from 'react';
 
 const Home = (props) => {   
-  console.log('props lol')
-  console.log(props)
     return (
       <div>
         <br/>
@@ -56,10 +54,8 @@ const Home = (props) => {
                     <td></td>
                     <td>Name</td>
                     <td>Description</td>
-                    {/* <td>Zip</td> */}
                     <td>Type</td>
                     <td>Website</td>
-                    {/* <td>Phone #</td> */}
                   </tr>
                   {
                   props.results.length === 0 
@@ -76,12 +72,9 @@ const Home = (props) => {
                     return <tr className="row result" key={result._id}>
                       <td></td>
                       <td><strong>{result[0]}</strong></td>
-                      {/* <td>{result.type}</td> */}
                       <td>{result[1]}</td>
-                      {/* <td>{result[2]}</td> */}
                       <td>{result[3]}</td>
                       <td className="website"><a rel="noopener noreferrer" target="_blank" href={website}>{result[4]}</a></td>
-                      {/* <td>{result[5]}</td> */}
                     </tr>
                   })}
                 </tbody>

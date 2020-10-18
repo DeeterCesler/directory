@@ -4,8 +4,6 @@ import { Route, Switch } from 'react-router-dom';
 import Home from './Home';
 import GetSheetDone from 'get-sheet-done';
 
-const backendUrl = process.env.REACT_APP_BACKEND_SERVER_ADDRESS;
-
 class App extends React.Component {
   constructor(){
     super();
@@ -43,22 +41,6 @@ class App extends React.Component {
       console.log('error: ');
       console.log(e);
     }
-
-    // ping heroku server to wake up it as soon as someone accesses the site
-    try {
-      const req = await fetch(backendUrl + "ping", {
-        method: 'GET',
-        headers: {
-          'Access-Control-Allow-Origin': '*',
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Headers': "GET",
-          'credentials': 'same-origin',
-        },
-      });
-      const res = await req.json();
-      console.log('PINGED!');
-      console.log(res.message);
-    } catch (e) {console.log('error: ' + e);}
   }
 
   home = () => {
@@ -106,13 +88,6 @@ class App extends React.Component {
     })
 
     console.log(this.state)
-  }
-
-  clearResults = () => {
-    this.setState({
-      ...this.state,
-      filteredResults: [],
-    })
   }
 
   render () {
