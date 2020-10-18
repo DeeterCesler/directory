@@ -6,7 +6,7 @@ const Home = (props) => {
         <br/>
         <br/>
         <div className="container-fluid">
-          <h1>black business directory</h1>
+          <h1>black business directory - Denver, CO</h1>
           <br/>
           <form onSubmit={props.searchForBusiness}>
             <div className="row">
