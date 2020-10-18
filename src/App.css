@@ -55,9 +55,14 @@ body {
 }
 
 .bold td {
-  font-weight: bold;
+  font-weight: 700;
+  font-size: 1.2em;
 }
 
 .result {
   margin: 1.5em 0;
+}
+
+.website {
+  font-size: 0.8em;
 }

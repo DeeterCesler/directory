@@ -1,8 +1,6 @@
 import React from 'react';
 
 const Home = (props) => {   
-  console.log('props lol')
-  console.log(props)
     return (
       <div>
         <br/>
@@ -23,10 +21,10 @@ const Home = (props) => {
                 <select className="box" name="type" onChange={props.handleInputs}>
                   <option></option>
                   <option value="Restaurant">Restaurant</option>
-                  <option value="Finance">Finance</option>
-                  <option value="Office">Office</option>
+                  <option value="Coffee">Coffee</option>
+                  <option value="Bar, Brewery">Bar, Brewery</option>
                   <option value="Media">Media</option>
-                  <option value="Salon">Salon, Barber</option>
+                  <option value="Ice Cream">Ice Cream</option>
                   <option value="Other">Other</option>
                 </select>
               </div>
@@ -53,13 +51,11 @@ const Home = (props) => {
               <table>
                 <tbody>
                   <tr className="row bold">
+                    <td></td>
                     <td>Name</td>
-                    {/* <td>Type</td> */}
-                    <td>Address</td>
-                    <td>Zip</td>
                     <td>Description</td>
+                    <td>Type</td>
                     <td>Website</td>
-                    <td>Phone #</td>
                   </tr>
                   {
                   props.results.length === 0 
@@ -74,13 +70,11 @@ const Home = (props) => {
                     if(result[4] && result[4].substring(0,4) === "http") website = result[4];
                     else if (result[4]) website = "http://" + result[4];
                     return <tr className="row result" key={result._id}>
-                      <td>{result[0]}</td>
-                      {/* <td>{result.type}</td> */}
+                      <td></td>
+                      <td><strong>{result[0]}</strong></td>
                       <td>{result[1]}</td>
-                      <td>{result[2]}</td>
                       <td>{result[3]}</td>
-                      <td><a rel="noopener noreferrer" target="_blank" href={website}>{result[4]}</a></td>
-                      <td>{result[5]}</td>
+                      <td className="website"><a rel="noopener noreferrer" target="_blank" href={website}>{result[4]}</a></td>
                     </tr>
                   })}
                 </tbody>
