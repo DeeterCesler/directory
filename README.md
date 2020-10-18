@@ -5,8 +5,8 @@ This project started out as a volunteer effort to create a "Black Business Direc
 The group I open-sourced the code to ghosted me and didn't end up creating anything, so I changed it up so anyone can use it now.
 
 ## Why this may interest you
-- This project has a Google Sheets backend. In effect, that makes it read-only unless you're an editor of the sheet you've linked it to.
-- The sheet URL is not private, but the info you have on there shouldn't really be secret anyway since this code lets you post from it.
+- This project has a Google Sheets backend. That means it's read-only unless you're an editor of the sheet you've linked it to.
+- The Google sheet URL is not private, but the info you have on there shouldn't really be secret anyway since this code lets you post from it. Don't do anything obvious like keep passwords in the sheets.
 - Ideally, this could be used to pretty-up a boring spreadsheet and potentially make it more accessible via web address instead of sharing a google sheets link.
 
 
