@@ -3,6 +3,9 @@ import './App.css';
 import { Route, Switch } from 'react-router-dom';
 import Home from './Home';
 import GetSheetDone from 'get-sheet-done';
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-110417068-5');
+ReactGA.pageview(window.location.pathname + window.location.search);
 
 class App extends React.Component {
   constructor(){
