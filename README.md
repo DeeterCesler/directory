@@ -1,8 +1,17 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Black Business Directory
 
-## Available Scripts
+This project started out as a volunteer effort to create a "Black Business Directory" so users could find black businesses around Denver, CO.
 
-In the project directory, you can run:
+The group I open-sourced the code to ghosted me and didn't end up creating anything, so I changed it up so anyone can use it now.
+
+## Why this may interest you
+- This project has a Google Sheets backend. In effect, that makes it read-only unless you're an editor of the sheet you've linked it to.
+- The sheet URL is not private, but the info you have on there shouldn't really be secret anyway since this code lets you post from it.
+- Ideally, this could be used to pretty-up a boring spreadsheet and potentially make it more accessible via web address instead of sharing a google sheets link.
+
+
+## Here's the automatically generated React markdown below:
+
 
 ### `yarn start`
 
